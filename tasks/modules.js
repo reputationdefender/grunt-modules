@@ -34,13 +34,22 @@ module.exports = function(grunt) {
       grunt.fatal('never use path as filename');
       return false;
     }
+
+    // log('modules task *&&*');
+    console.log('modules task *&&*');
     
     // send the files and name objects to the helper
-    var files = this.file.src.files,
-        module = this.file.src.name,
+    var files = this.file.src[0].files,
+        name = this.file.src[0].name,
         dest = this.file.dest;
 
-    grunt.file.write(this.file.dest, grunt.helper('modules', files, module));
+    // console.log("files");
+    // console.log(files);
+    // console.log("module");
+    // console.log(module);
+
+
+    grunt.file.write(this.file.dest, grunt.helper('modules', files, name));
 
     // Fail task if errors were logged.
     if (this.errorCount) { return false; }
@@ -63,56 +72,72 @@ module.exports = function(grunt) {
         routers = [],
         contents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
 
+    console.log('in the helper');
+
     for (var i in files) {
       if (i === "views") {
-        views.push(files[i]);
+        if (files[i] !== '') {
+          views.push(files[i]);
+        }
       } else if (i === "templates") {
-        templates.push(files[i]);
+        if (files[i] !== '') {
+          templates.push(files[i]);
+        }
       } else if (i === "collections") {
-        collections.push(files[i]);
+        if (files[i] !== '') {
+          collections.push(files[i]);
+        }
       } else if (i === "routers") {
-        routers.push(files[i]);
+        if (files[i] !== '') {
+          routers.push(files[i]);
+        }
       } else if (i === "models") {
-        models.push(files[i]);
+        if (files[i] !== '') {
+          models.push(files[i]);
+        }
       }
     }
 
-    routers.map(function(filepath) {
-      var raw = file.read(filepath);
-      if (raw !== '') {
-        contents += raw + '\n\n';
+    if (routers[0].length < 1) {
+      grunt.fatal('a router is required for a module');
+    } else {
+      for (i=0; i < routers[0].length; i++) {
+          var raw = file.read(routers[0][i]);
+          contents += raw + '\n\n';
       }
-    });
+    }
 
-    collections.map(function(filepath) {
-      var raw = file.read(filepath);
-      if (raw !== '') {
-        contents += module + ".Collection." + raw + '\n\n';
+    if (collections[0].length > 0) {
+      for (i=0; i < collections[0].length; i++) {
+          var raw = file.read(collections[0][i]);
+          contents += module + ".Collection." + raw + '\n\n';
       }
-    });
-
-    models.map(function(filepath) {
-      var raw = file.read(filepath);
-      if (raw !== '') {
-        contents += module + ".Model." + raw + '\n\n';
+    }
+    
+    if (models[0].length > 0) {
+      for (i=0; i < models[0].length; i++) {
+          var raw = file.read(models[0][i]);
+          contents += module + ".Model." + raw + '\n\n';
       }
-    });
-
-    views.map(function(filepath) {
-      var raw = file.read(filepath);
-      if (raw !== '') {
-        contents += module + ".Views." + raw + '\n\n';
+    }
+    
+    if (views[0].length < 1) {
+      grunt.fatal('a view is required for a module');
+    } else {
+      for (i=0; i < views[0].length; i++) {
+          var raw = file.read(views[0][i]);
+          contents += module + ".Views." + raw + '\n\n';
       }
-    });
-
+    }
+    
     contents += '  // Return the module for AMD compliance.\n  return '+module+';\n\n});\n\n';
 
-    templates.map(function(filepath) {
-      var raw = file.read(filepath);
-      if (raw !== '') {
-        contents += raw;
+    if (templates[0].length > 0) {
+      for (i=0; i < templates[0].length; i++) {
+          var raw = file.read(templates[0][i]);
+          contents += raw;
       }
-    });
+    }
 
     return contents;
   });
