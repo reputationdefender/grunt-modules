@@ -34,20 +34,11 @@ module.exports = function(grunt) {
       grunt.fatal('never use path as filename');
       return false;
     }
-
-    // log('modules task *&&*');
-    console.log('modules task *&&*');
     
     // send the files and name objects to the helper
     var files = this.file.src[0].files,
         name = this.file.src[0].name,
         dest = this.file.dest;
-
-    // console.log("files");
-    // console.log(files);
-    // console.log("module");
-    // console.log(module);
-
 
     grunt.file.write(this.file.dest, grunt.helper('modules', files, name));
 
@@ -71,8 +62,6 @@ module.exports = function(grunt) {
         collections = [],
         routers = [],
         contents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
-
-    console.log('in the helper');
 
     for (var i in files) {
       if (i === "views") {
