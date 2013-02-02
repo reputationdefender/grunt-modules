@@ -1,0 +1,1 @@
+Desktop = Backbone.Collection.extend({ /* -- Backbone Collection -- */});

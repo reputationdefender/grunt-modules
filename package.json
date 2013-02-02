@@ -1,0 +1,40 @@
+{
+  "name": "grunt-modules",
+  "description": "Create a module from a list of files.  Handles Routers, Views, Collections and Models.",
+  "version": "0.1.0",
+  "homepage": "git@github.com:jeff-harnois/grunt-modules.git",
+  "author": {
+    "name": "Jeff Harnois",
+    "email": "jeff.harnois@reputation.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reputation/grunt-modules.git"
+  },
+  "bugs": {
+    "url": "https://github.com/reputation/grunt-modules/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/reputation/grunt-modules/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "grunt.js",
+  "bin": "bin/grunt-modules",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "grunt": "~0.3.9"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.9"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}

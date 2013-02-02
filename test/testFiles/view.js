@@ -1,0 +1,1 @@
+Desktop = Backbone.View.extend({ /* -- Backbone View -- */});
