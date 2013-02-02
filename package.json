@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/reputation/grunt-modules.git"
+    "url": "https://github.com/jeff-harnois/grunt-modules.git"
   },
   "bugs": {
-    "url": "https://github.com/reputation/grunt-modules/issues"
+    "url": "https://github.com/jeff-harnois/grunt-modules/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/reputation/grunt-modules/blob/master/LICENSE-MIT"
+      "url": "https://github.com/jeff-harnois/grunt-modules/blob/master/LICENSE-MIT"
     }
   ],
   "main": "grunt.js",
