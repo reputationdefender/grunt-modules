@@ -61,7 +61,8 @@ module.exports = function(grunt) {
         models = [], 
         collections = [],
         routers = [],
-        contents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
+        origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n',
+          contents = origContents;
 
     for (var i in files) {
       if (i === "views") {
@@ -87,9 +88,7 @@ module.exports = function(grunt) {
       }
     }
 
-    if (routers[0].length < 1) {
-      grunt.fatal('a router is required for a module');
-    } else {
+    if (routers[0].length > 0) {
       for (i=0; i < routers[0].length; i++) {
           var raw = file.read(routers[0][i]);
           contents += raw + '\n\n';
@@ -110,16 +109,16 @@ module.exports = function(grunt) {
       }
     }
     
-    if (views[0].length < 1) {
-      grunt.fatal('a view is required for a module');
-    } else {
+    if (views[0].length > 0) {
       for (i=0; i < views[0].length; i++) {
           var raw = file.read(views[0][i]);
           contents += module + ".Views." + raw + '\n\n';
       }
     }
-    
-    contents += '  // Return the module for AMD compliance.\n  return '+module+';\n\n});\n\n';
+
+    if (contents !== origContents) {
+      contents += '  // Return the module for AMD compliance.\n  return '+module+';\n\n});\n\n';
+    }
 
     if (templates[0].length > 0) {
       for (i=0; i < templates[0].length; i++) {
