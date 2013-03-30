@@ -24,12 +24,16 @@ var grunt = require('grunt');
 
 exports.tpl = {
   long: function(test) {
-    test.expect(1);
+    test.expect(2);
 
     var contents = grunt.file.read("/tmp/module/test.js"),
         expected = grunt.file.read("test/output.js");
 
     test.equal(contents, expected, 'Should return a module file');
+
+    contents = grunt.file.read("/tmp/module/test2.js");
+    expected = grunt.file.read("test/output2.js");
+    test.equal(contents, expected, 'Should return a module file with no Router');
 
     test.done();
   }

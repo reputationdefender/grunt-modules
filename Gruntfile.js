@@ -51,6 +51,25 @@ module.exports = function(grunt) {
             router: "test/testFiles/router.js"
           }
         }
+      ],
+      "/tmp/module/test2.js": [
+        {
+          name: "Test",
+          files: {
+            templates: [
+              "test/testFiles/templates.js"
+            ],
+            views: [
+              "test/testFiles/view.js"
+            ],
+            collections: [
+              "test/testFiles/collection.js"
+            ],
+            models: [
+              "test/testFiles/model.js"
+            ]
+          }
+        }
       ]
     },
 

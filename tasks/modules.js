@@ -64,7 +64,8 @@ module.exports = function(grunt) {
           }
         }
 
-        if (router && typeof(router) === 'string') {
+
+        if ((router && typeof(router) === 'string')) {
           raw = grunt.file.read(router);
           // grab the Module name from Router
           module = raw.substring(0,raw.indexOf('.'));
@@ -72,8 +73,13 @@ module.exports = function(grunt) {
           origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
           contents = origContents;
           contents += raw + '\n\n';
+        } else if (!router && src.name){
+          module = src.name;
+          // dump that into contents
+          origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
+          contents = origContents;
         } else {
-          grunt.fail.warn('Modules requires a Router file string.  You passed in an',typeof(router));
+          grunt.fail.warn('Modules requires either a router file string or a name.');
         }
 
         if (collections.length > 0) {
