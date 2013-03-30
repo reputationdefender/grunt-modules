@@ -123,15 +123,8 @@ module.exports = function(grunt) {
         grunt.fail.warn('Module operation failed');
       }
 
-    },
-    processTask = function(files) {
-      for (i = 0; i < files.orig.src.length; i++) {
-        processModule(files.orig.src[i], files.dest);
-      }
     };
 
-    for (i = 0; i < this.files.length; i++) {
-      processTask(this.files[i]);
-    }
+    processModule(this.data, this.target);
   });
 };

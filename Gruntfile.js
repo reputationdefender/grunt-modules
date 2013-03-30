@@ -33,44 +33,40 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
 
     modules: {
-      "/tmp/module/test.js": [
-        {
-          files: {
-            templates: [
-              "test/testFiles/templates.js"
-            ],
-            views: [
-              "test/testFiles/view.js"
-            ],
-            collections: [
-              "test/testFiles/collection.js"
-            ],
-            models: [
-              "test/testFiles/model.js"
-            ],
-            router: "test/testFiles/router.js"
-          }
+      "/tmp/module/test.js": {
+        files: {
+          templates: [
+            "test/testFiles/templates.js"
+          ],
+          views: [
+            "test/testFiles/view.js"
+          ],
+          collections: [
+            "test/testFiles/collection.js"
+          ],
+          models: [
+            "test/testFiles/model.js"
+          ],
+          router: "test/testFiles/router.js"
         }
-      ],
-      "/tmp/module/test2.js": [
-        {
-          name: "Test",
-          files: {
-            templates: [
-              "test/testFiles/templates.js"
-            ],
-            views: [
-              "test/testFiles/view.js"
-            ],
-            collections: [
-              "test/testFiles/collection.js"
-            ],
-            models: [
-              "test/testFiles/model.js"
-            ]
-          }
+      },
+      "/tmp/module/test2.js": {
+        name: "Test",
+        files: {
+          templates: [
+            "test/testFiles/templates.js"
+          ],
+          views: [
+            "test/testFiles/view.js"
+          ],
+          collections: [
+            "test/testFiles/collection.js"
+          ],
+          models: [
+            "test/testFiles/model.js"
+          ]
         }
-      ]
+      }
     },
 
     // Unit tests.
