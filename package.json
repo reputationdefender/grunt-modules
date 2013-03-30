@@ -33,7 +33,10 @@
     "grunt-contrib-nodeunit": "~0.1.2",
     "grunt-contrib-internal": "~0.4.2",
     "grunt-contrib-clean": "~0.4.0",
-    "grunt": "~0.4.0"
+    "grunt": "~0.4.0",
+    "grunt-tpl": "git+ssh://git@github.com:reputation/grunt-tpl.git",
+    "grunt-module": "git+ssh://git@github.com:jeff-harnois/grunt-modules.git"
+
   },
   "peerDependencies": {
     "grunt": "~0.4.0"

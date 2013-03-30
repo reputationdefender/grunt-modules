@@ -28,77 +28,85 @@ module.exports = function(grunt) {
     var i = 0,
     processModule = function(src, dest) {
       try {
-        var module = src.name,
-            files = src.files,
-            views = [], 
-            templates = [],
-            models = [], 
-            collections = [],
-            routers = [],
+        var files = src.files,
+            views, 
+            templates,
+            models, 
+            collections,
+            routers,
+            module,
             raw,
-            origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n',
-            contents = origContents;
+            contents = '',
+            origContents = '';
 
 
         for (var i in files) {
           if (i === "views") {
             if (files[i] !== '') {
-              views.push(files[i]);
+              views = files[i];
             }
           } else if (i === "templates") {
             if (files[i] !== '') {
-              templates.push(files[i]);
+              templates = files[i];
             }
           } else if (i === "collections") {
             if (files[i] !== '') {
-              collections.push(files[i]);
+              collections = files[i];
             }
           } else if (i === "routers") {
             if (files[i] !== '') {
-              routers.push(files[i]);
+              routers = files[i];
             }
           } else if (i === "models") {
             if (files[i] !== '') {
-              models.push(files[i]);
+              models = files[i];
             }
           }
         }
 
-        if (routers[0].length > 0) {
-          for (i=0; i < routers[0].length; i++) {
-              raw = grunt.file.read(routers[0][i]);
-              contents += raw + '\n\n';
-          }
+        if (routers.length === 1) {
+          raw = grunt.file.read(routers[0]);
+          // grab the Module name from Router
+          module = raw.substring(0,raw.indexOf('.'));
+          // dump that into contents
+          origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
+          contents = origContents;
+          contents += raw + '\n\n';
+        } else {
+          grunt.fail.warn('Modules require 1 and only 1 Router file');
         }
 
-        if (collections[0].length > 0) {
-          for (i=0; i < collections[0].length; i++) {
-              raw = grunt.file.read(collections[0][i]);
+        if (collections.length > 0) {
+          for (i=0; i < collections.length; i++) {
+              raw = grunt.file.read(collections[i]);
               contents += module + ".Collection." + raw + '\n\n';
           }
         }
         
-        if (models[0].length > 0) {
-          for (i=0; i < models[0].length; i++) {
-              raw = grunt.file.read(models[0][i]);
+        if (models.length > 0) {
+          for (i=0; i < models.length; i++) {
+              raw = grunt.file.read(models[i]);
               contents += module + ".Model." + raw + '\n\n';
           }
         }
         
-        if (views[0].length > 0) {
-          for (i=0; i < views[0].length; i++) {
-              raw = grunt.file.read(views[0][i]);
+        if (views.length > 0) {
+          for (i=0; i < views.length; i++) {
+              raw = grunt.file.read(views[i]);
               contents += module + ".Views." + raw + '\n\n';
           }
         }
 
+        // make sure someone actually passed something in
         if (contents !== origContents) {
           contents += '  // Return the module for AMD compliance.\n  return '+module+';\n\n});\n\n';
+        } else {
+          grunt.fail.warn('Module operation failed: no content was found to add to the module');
         }
 
-        if (templates[0].length > 0) {
-          for (i=0; i < templates[0].length; i++) {
-              raw = grunt.file.read(templates[0][i]);
+        if (templates.length > 0) {
+          for (i=0; i < templates.length; i++) {
+              raw = grunt.file.read(templates[i]);
               contents += raw;
           }
         }
@@ -117,7 +125,6 @@ module.exports = function(grunt) {
     };
 
     for (i = 0; i < this.files.length; i++) {
-      console.log('foreach');
       processTask(this.files[i]);
     }
   });
