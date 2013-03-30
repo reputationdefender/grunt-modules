@@ -48,9 +48,7 @@ module.exports = function(grunt) {
             models: [
               "test/testFiles/model.js"
             ],
-            routers: [
-              "test/testFiles/router.js"
-            ]
+            router: "test/testFiles/router.js"
           }
         }
       ]

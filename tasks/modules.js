@@ -33,7 +33,7 @@ module.exports = function(grunt) {
             templates,
             models, 
             collections,
-            routers,
+            router,
             module,
             raw,
             contents = '',
@@ -53,9 +53,9 @@ module.exports = function(grunt) {
             if (files[i] !== '') {
               collections = files[i];
             }
-          } else if (i === "routers") {
+          } else if (i === "router") {
             if (files[i] !== '') {
-              routers = files[i];
+              router = files[i];
             }
           } else if (i === "models") {
             if (files[i] !== '') {
@@ -64,8 +64,8 @@ module.exports = function(grunt) {
           }
         }
 
-        if (routers.length === 1) {
-          raw = grunt.file.read(routers[0]);
+        if (router && typeof(router) === 'string') {
+          raw = grunt.file.read(router);
           // grab the Module name from Router
           module = raw.substring(0,raw.indexOf('.'));
           // dump that into contents
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
           contents = origContents;
           contents += raw + '\n\n';
         } else {
-          grunt.fail.warn('Modules require 1 and only 1 Router file');
+          grunt.fail.warn('Modules requires a Router file string.  You passed in an',typeof(router));
         }
 
         if (collections.length > 0) {
