@@ -1,6 +1,3 @@
-var grunt = require('grunt'),
-    util = require('util');
-
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -21,32 +18,19 @@ var grunt = require('grunt'),
     test.ifError(value)
 */
 
-exports["modules"] = {
-  'helper': function(test) {
+'use strict';
+
+var grunt = require('grunt');
+
+exports.tpl = {
+  long: function(test) {
     test.expect(1);
-    
-    var f = {
-      templates: [
-        "test/testFiles/templates.js"
-      ],
-      views: [
-        "test/testFiles/view.js"
-      ],
-      collections: [
-        "test/testFiles/collection.js"
-      ],
-      models: [
-        "test/testFiles/model.js"
-      ],
-      routers: [
-        "test/testFiles/router.js"
-      ]
-    },
-    name = "Test",
-    contents = grunt.helper('modules', f, name),
-    expected = grunt.file.read("test/output.js");
+
+    var contents = grunt.file.read("/tmp/module/test.js"),
+        expected = grunt.file.read("test/output.js");
 
     test.equal(contents, expected, 'Should return a module file');
+
     test.done();
   }
 };
