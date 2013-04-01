@@ -27,102 +27,131 @@ module.exports = function(grunt) {
 
     var i = 0,
     processModule = function(src, dest) {
-      try {
-        var files = src.files,
-            views, 
-            templates,
-            models, 
-            collections,
-            router,
-            module,
-            raw,
-            contents = '',
-            origContents = '';
+      var files = src.files,
+          views, 
+          templates,
+          models, 
+          collections,
+          router,
+          module,
+          raw,
+          contents = '',
+          origContents = '';
 
 
-        for (var i in files) {
-          if (i === "views") {
-            if (files[i] !== '') {
-              views = files[i];
-            }
-          } else if (i === "templates") {
-            if (files[i] !== '') {
-              templates = files[i];
-            }
-          } else if (i === "collections") {
-            if (files[i] !== '') {
-              collections = files[i];
-            }
-          } else if (i === "router") {
-            if (files[i] !== '') {
-              router = files[i];
-            }
-          } else if (i === "models") {
-            if (files[i] !== '') {
-              models = files[i];
-            }
+      for (var i in files) {
+        if (i === "views") {
+          if (files[i] !== '') {
+            views = files[i];
+          }
+        } else if (i === "templates") {
+          if (files[i] !== '') {
+            templates = files[i];
+          }
+        } else if (i === "collections") {
+          if (files[i] !== '') {
+            collections = files[i];
+          }
+        } else if (i === "router") {
+          if (files[i] !== '') {
+            router = files[i];
+          }
+        } else if (i === "models") {
+          if (files[i] !== '') {
+            models = files[i];
           }
         }
+      }
 
-
-        if ((router && typeof(router) === 'string')) {
+      if ((router && typeof(router) === 'string')) {
+        try {
           raw = grunt.file.read(router);
-          // grab the Module name from Router
+           // grab the Module name from Router
           module = raw.substring(0,raw.indexOf('.'));
           // dump that into contents
           origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
           contents = origContents;
           contents += raw + '\n\n';
-        } else if (!router && src.name){
-          module = src.name;
-          // dump that into contents
-          origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
-          contents = origContents;
-        } else {
-          grunt.fail.warn('Modules requires either a router file string or a name.');
+        } catch (e) {
+          grunt.log.error();
+          grunt.verbose.error(e);
+          grunt.fail.warn('Router '+router+' does not exist.',e);
         }
+      } else if (!router && src.name){
+        module = src.name;
+        // dump that into contents
+        origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
+        contents = origContents;        
+      } else {
+        grunt.fail.warn('Modules requires either a router file string or a name.');
+      }
 
-        if (collections.length > 0) {
-          for (i=0; i < collections.length; i++) {
-              raw = grunt.file.read(collections[i]);
-              contents += module + ".Collection." + raw + '\n\n';
-          }
-        }
-        
-        if (models.length > 0) {
-          for (i=0; i < models.length; i++) {
-              raw = grunt.file.read(models[i]);
-              contents += module + ".Model." + raw + '\n\n';
-          }
-        }
-        
-        if (views.length > 0) {
-          for (i=0; i < views.length; i++) {
-              raw = grunt.file.read(views[i]);
-              contents += module + ".Views." + raw + '\n\n';
-          }
-        }
 
-        // make sure someone actually passed something in
-        if (contents !== origContents) {
-          contents += '  // Return the module for AMD compliance.\n  return '+module+';\n\n});\n\n';
-        } else {
-          grunt.fail.warn('Module operation failed: no content was found to add to the module');
+      if (collections.length > 0) {
+        for (i=0; i < collections.length; i++) {
+          try {
+            raw = grunt.file.read(collections[i]);
+            contents += module + ".Collection." + raw + '\n\n';
+          } catch (e) {
+            grunt.log.error();
+            grunt.verbose.error(e);
+            grunt.fail.warn('Collection '+collections[i]+' does not exist.',e);
+          }   
         }
-
-        if (templates.length > 0) {
-          for (i=0; i < templates.length; i++) {
-              raw = grunt.file.read(templates[i]);
-              contents += raw;
+      }
+      
+      if (models.length > 0) {
+        for (i=0; i < models.length; i++) {
+          try {
+            raw = grunt.file.read(models[i]);
+            contents += module + ".Model." + raw + '\n\n';
+          } catch (e) {
+            grunt.log.error();
+            grunt.verbose.error(e);
+            grunt.fail.warn('Model '+models[i]+' does not exist.',e);
           }
         }
+      }
+      
+      if (views.length > 0) {
+        for (i=0; i < views.length; i++) {
+          try {
+            raw = grunt.file.read(views[i]);
+            contents += module + ".Views." + raw + '\n\n';
+          } catch (e) {
+            grunt.log.error();
+            grunt.verbose.error(e);
+            grunt.fail.warn('View '+views[i]+' does not exist.',e);
+          }   
+        }
+      }
+
+      // make sure someone actually passed something in
+      if (contents !== origContents) {
+        contents += '  // Return the module for AMD compliance.\n  return '+module+';\n\n});\n\n';
+      } else {
+        grunt.fail.warn('Module operation failed: no content was found to add to the module');
+      }
+
+      if (templates.length > 0) {
+        for (i=0; i < templates.length; i++) {
+          try {
+            raw = grunt.file.read(templates[i]);
+            contents += raw;
+          } catch (e) {
+            grunt.log.error();
+            grunt.verbose.error(e);
+            grunt.fail.warn('View '+views[i]+' does not exist.',e);
+          }
+        }
+      }
+      try {
         grunt.file.write(dest, contents);
       } catch (e) {
         grunt.log.error();
         grunt.verbose.error(e);
-        grunt.fail.warn('Module operation failed');
+        grunt.fail.warn('Cannot write to '+dest,contents);
       }
-
     };
 
     processModule(this.data, this.target);
