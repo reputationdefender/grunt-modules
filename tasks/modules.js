@@ -113,7 +113,7 @@ module.exports = function(grunt) {
         }
       }
       
-      if (view && views.length > 0) {
+      if (views && views.length > 0) {
         for (i=0; i < views.length; i++) {
           try {
             raw = grunt.file.read(views[i]);
