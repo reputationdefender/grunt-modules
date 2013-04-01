@@ -87,7 +87,7 @@ module.exports = function(grunt) {
       }
 
 
-      if (collections.length > 0) {
+      if (collections && collections.length > 0) {
         for (i=0; i < collections.length; i++) {
           try {
             raw = grunt.file.read(collections[i]);
@@ -100,7 +100,7 @@ module.exports = function(grunt) {
         }
       }
       
-      if (models.length > 0) {
+      if (models && models.length > 0) {
         for (i=0; i < models.length; i++) {
           try {
             raw = grunt.file.read(models[i]);
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
         }
       }
       
-      if (views.length > 0) {
+      if (view && views.length > 0) {
         for (i=0; i < views.length; i++) {
           try {
             raw = grunt.file.read(views[i]);
@@ -133,7 +133,7 @@ module.exports = function(grunt) {
         grunt.fail.warn('Module operation failed: no content was found to add to the module');
       }
 
-      if (templates.length > 0) {
+      if (templates && templates.length > 0) {
         for (i=0; i < templates.length; i++) {
           try {
             raw = grunt.file.read(templates[i]);
