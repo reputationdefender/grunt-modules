@@ -91,7 +91,7 @@ module.exports = function(grunt) {
         for (i=0; i < collections.length; i++) {
           try {
             raw = grunt.file.read(collections[i]);
-            contents += module + ".Collection." + raw + '\n\n';
+            contents += module + ".Collections." + raw + '\n\n';
           } catch (e) {
             grunt.log.error();
             grunt.verbose.error(e);
@@ -104,7 +104,7 @@ module.exports = function(grunt) {
         for (i=0; i < models.length; i++) {
           try {
             raw = grunt.file.read(models[i]);
-            contents += module + ".Model." + raw + '\n\n';
+            contents += module + ".Models." + raw + '\n\n';
           } catch (e) {
             grunt.log.error();
             grunt.verbose.error(e);
