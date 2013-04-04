@@ -69,7 +69,7 @@ module.exports = function(grunt) {
            // grab the Module name from Router
           module = raw.substring(0,raw.indexOf('.'));
           // dump that into contents
-          origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
+          origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
           contents = origContents;
           contents += raw + '\n\n';
         } catch (e) {
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
       } else if (!router && src.name){
         module = src.name;
         // dump that into contents
-        origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module();\n';
+        origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
         contents = origContents;        
       } else {
         grunt.fail.warn('Modules requires either a router file string or a name.');

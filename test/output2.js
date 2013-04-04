@@ -5,10 +5,10 @@ define([
 function() {
 
   // Create a new module.
-  var Test = main.module();
-Test.Collection.Desktop = Backbone.Collection.extend({ /* -- Backbone Collection -- */});
+  var Test = main.module("Test");
+Test.Collections.Desktop = Backbone.Collection.extend({ /* -- Backbone Collection -- */});
 
-Test.Model.Desktop = Backbone.Model.extend({ /* -- Backbone Model -- */});
+Test.Models.Desktop = Backbone.Model.extend({ /* -- Backbone Model -- */});
 
 Test.Views.Desktop = Backbone.View.extend({ /* -- Backbone View -- */});
 
