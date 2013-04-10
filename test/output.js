@@ -1,3 +1,8 @@
+/* -- fake libs file -- */
+(function($) {
+
+})(jQuery);
+
 define([
   ""
 ],

@@ -35,6 +35,9 @@ module.exports = function(grunt) {
     modules: {
       "/tmp/module/test.js": {
         files: {
+          libs: [
+            'test/testFiles/libs.js'
+          ],
           templates: [
             "test/testFiles/templates.js"
           ],
@@ -53,6 +56,7 @@ module.exports = function(grunt) {
       "/tmp/module/test2.js": {
         name: "Test",
         files: {
+          libs: 'test/testFiles/libs.js',
           templates: [
             "test/testFiles/templates.js"
           ],

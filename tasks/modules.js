@@ -32,6 +32,7 @@ module.exports = function(grunt) {
           templates,
           models, 
           collections,
+          libs, 
           router,
           module,
           raw,
@@ -60,6 +61,32 @@ module.exports = function(grunt) {
           if (files[i] !== '') {
             models = files[i];
           }
+        } else if (i === "libs") {
+          if (files[i] !== '') {
+            libs = files[i];
+          }
+        }
+      }
+
+      if (libs && typeof(libs) === 'string') {
+        try {
+          raw = grunt.file.read(libs);
+          origContents += raw + '\n\n';
+        } catch (e) {
+          grunt.log.error();
+          grunt.verbose.error(e);
+          grunt.fail.warn('Libs '+libs+ "does not exist",e);
+        }
+      } else if (libs && libs.length > 0) {
+        for (i=0; i < libs.length; i++) {
+          try {
+            raw = grunt.file.read(libs[i]);
+            origContents += raw + '\n\n';
+          } catch (e) {
+            grunt.log.error();
+            grunt.verbose.error(e);
+            grunt.fail.warn('Libs '+libs[i]+ "does not exist",e);
+          }   
         }
       }
 
@@ -69,7 +96,7 @@ module.exports = function(grunt) {
            // grab the Module name from Router
           module = raw.substring(0,raw.indexOf('.'));
           // dump that into contents
-          origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
+          origContents += 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
           contents = origContents;
           contents += raw + '\n\n';
         } catch (e) {
@@ -80,7 +107,7 @@ module.exports = function(grunt) {
       } else if (!router && src.name){
         module = src.name;
         // dump that into contents
-        origContents = 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
+        origContents += 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
         contents = origContents;        
       } else {
         grunt.fail.warn('Modules requires either a router file string or a name.');

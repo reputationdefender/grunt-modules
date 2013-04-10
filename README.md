@@ -20,7 +20,8 @@ here is a sample:
           models: [
             "test/testFiles/model.js"
           ],
-          router: "test/testFiles/router.js"
+          router: "test/testFiles/router.js",
+          libs: "test/testFiles/libs.js"
         }
       }
     }
@@ -42,6 +43,9 @@ If you choose not to use a router (maybe because you are creating a wrapper modu
           ],
           models: [
             "test/testFiles/model.js"
+          ],
+          libs: [
+            "test/testFiles/libs.js"
           ]
         }
       }
