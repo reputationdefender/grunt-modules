@@ -113,6 +113,19 @@ module.exports = function(grunt) {
         grunt.fail.warn('Modules requires either a router file string or a name.');
       }
 
+      if (models && models.length > 0) {
+        contents += "var Models = Models || {};\n";
+        for (i=0; i < models.length; i++) {
+          try {
+            raw = grunt.file.read(models[i]);
+            contents += "Models." + raw + '\n\n';
+          } catch (e) {
+            grunt.log.error();
+            grunt.verbose.error(e);
+            grunt.fail.warn('Model '+models[i]+' does not exist.',e);
+          }
+        }
+      }
 
       if (collections && collections.length > 0) {
         contents += "var Collections = Collections || {};\n";
@@ -125,20 +138,6 @@ module.exports = function(grunt) {
             grunt.verbose.error(e);
             grunt.fail.warn('Collection '+collections[i]+' does not exist.',e);
           }   
-        }
-      }
-      
-      if (models && models.length > 0) {
-        contents += "var Models = Models || {};\n";
-        for (i=0; i < models.length; i++) {
-          try {
-            raw = grunt.file.read(models[i]);
-            contents += "Models." + raw + '\n\n';
-          } catch (e) {
-            grunt.log.error();
-            grunt.verbose.error(e);
-            grunt.fail.warn('Model '+models[i]+' does not exist.',e);
-          }
         }
       }
       
