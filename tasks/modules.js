@@ -115,10 +115,11 @@ module.exports = function(grunt) {
 
 
       if (collections && collections.length > 0) {
+        contents += "var Collections = Collections || {};\n";
         for (i=0; i < collections.length; i++) {
           try {
             raw = grunt.file.read(collections[i]);
-            contents += module + ".Collections." + raw + '\n\n';
+            contents += "Collections." + raw + '\n\n';
           } catch (e) {
             grunt.log.error();
             grunt.verbose.error(e);
@@ -128,10 +129,11 @@ module.exports = function(grunt) {
       }
       
       if (models && models.length > 0) {
+        contents += "var Models = Models || {};\n";
         for (i=0; i < models.length; i++) {
           try {
             raw = grunt.file.read(models[i]);
-            contents += module + ".Models." + raw + '\n\n';
+            contents += "Models." + raw + '\n\n';
           } catch (e) {
             grunt.log.error();
             grunt.verbose.error(e);

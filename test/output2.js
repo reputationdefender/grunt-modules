@@ -11,9 +11,11 @@ function() {
 
   // Create a new module.
   var Test = main.module("Test");
-Test.Collections.Desktop = Backbone.Collection.extend({ /* -- Backbone Collection -- */});
+var Collections = Collections || {};
+Collections.Desktop = Backbone.Collection.extend({ /* -- Backbone Collection -- */});
 
-Test.Models.Desktop = Backbone.Model.extend({ /* -- Backbone Model -- */});
+var Models = Models || {};
+Models.Desktop = Backbone.Model.extend({ /* -- Backbone Model -- */});
 
 Test.Views.Desktop = Backbone.View.extend({ /* -- Backbone View -- */});
 
