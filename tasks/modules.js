@@ -169,7 +169,7 @@ module.exports = function(grunt) {
           } catch (e) {
             grunt.log.error();
             grunt.verbose.error(e);
-            grunt.fail.warn('View '+views[i]+' does not exist.',e);
+            grunt.fail.warn('Template '+templates[i]+' does not exist.',e);
           }
         }
       }
