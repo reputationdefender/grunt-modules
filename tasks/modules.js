@@ -173,6 +173,10 @@ module.exports = function(grunt) {
           }
         }
       }
+      
+      // replace any templating <%= module %>
+      contents = grunt.template.process(contents, {data: {module: module}});
+      
       try {
         grunt.file.write(dest, contents);
       } catch (e) {
