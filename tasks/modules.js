@@ -145,7 +145,8 @@ module.exports = function(grunt) {
         for (i=0; i < views.length; i++) {
           try {
             raw = grunt.file.read(views[i]);
-            contents += raw + '\n\n';
+            contents += module + ".Views." + raw + '\n\n'; 
+            // contents += raw + '\n\n';
           } catch (e) {
             grunt.log.error();
             grunt.verbose.error(e);
