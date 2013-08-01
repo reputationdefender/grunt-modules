@@ -2,6 +2,7 @@
   "name": "grunt-modules",
   "description": "Create a module from a list of files.  Handles Routers, Views, Collections and Models.",
   "version": "0.1.0",
+  "repository": "https://github.com/jeff-harnois/grunt-modules",
   "homepage": "git@github.com:jeff-harnois/grunt-modules.git",
   "author": {
     "name": "Jeff Harnois",
