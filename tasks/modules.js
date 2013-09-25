@@ -36,10 +36,15 @@ module.exports = function(grunt) {
           router,
           module,
           raw,
+          
+          // where we are writing to
           contents = '',
+          
+          // the original contents, used to check later that *something* was passed in, and that the task isn't just running
+          // for no reason
           origContents = '';
 
-
+      // loop through the files and store all of the strings/arrays
       for (var i in files) {
         if (i === "views") {
           if (files[i] !== '') {
@@ -68,6 +73,8 @@ module.exports = function(grunt) {
         }
       }
 
+      // go through the libs, and if it's a string, get and store that content
+      // if it's an array, loop through each part of the array and store that content
       if (libs && typeof(libs) === 'string') {
         try {
           raw = grunt.file.read(libs);
@@ -90,11 +97,16 @@ module.exports = function(grunt) {
         }
       }
 
-      if ((router && typeof(router) === 'string')) {
+      // go through the router, and if it's a string, get and store that content
+      // if it's an array, loop through each part of the array and store that content
+      // if there is no router passed through, they need to pass a "name" param, else we'll fail the task
+      if (router && typeof(router) === 'string') {
         try {
           raw = grunt.file.read(router);
+
            // grab the Module name from Router
           module = raw.substring(0,raw.indexOf('.'));
+
           // dump that into contents
           origContents += 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
           contents = origContents;
@@ -106,6 +118,7 @@ module.exports = function(grunt) {
         }
       } else if (!router && src.name){
         module = src.name;
+
         // dump that into contents
         origContents += 'define([\n  ""\n],\n\nfunction() {\n\n  // Create a new module.\n  var ' + module + ' = main.module("' + module + '");\n';
         contents = origContents;        
@@ -113,11 +126,16 @@ module.exports = function(grunt) {
         grunt.fail.warn('Modules requires either a router file string or a name.');
       }
 
+      // if models are passed in, loop through each part and store them.
       if (models && models.length > 0) {
+
+        // store a Models object with which to bind to
         contents += "var Models = Models || {};\n";
         for (i=0; i < models.length; i++) {
           try {
             raw = grunt.file.read(models[i]);
+
+            // Prepend the Model name with "Models."  This helps with namespacing the models.
             contents += "Models." + raw + '\n\n';
           } catch (e) {
             grunt.log.error();
@@ -127,11 +145,16 @@ module.exports = function(grunt) {
         }
       }
 
+      // if collections are passed in, loop through each part and store them.
       if (collections && collections.length > 0) {
+
+        // store a Collections object with which to bind to
         contents += "var Collections = Collections || {};\n";
         for (i=0; i < collections.length; i++) {
           try {
             raw = grunt.file.read(collections[i]);
+
+            // Prepend the Collection name with "Collections."  This helps with namespacing the collections.
             contents += "Collections." + raw + '\n\n';
           } catch (e) {
             grunt.log.error();
@@ -141,6 +164,7 @@ module.exports = function(grunt) {
         }
       }
       
+      // if views are passed in, loop through each part and store them
       if (views && views.length > 0) {
         for (i=0; i < views.length; i++) {
           try {
@@ -161,6 +185,7 @@ module.exports = function(grunt) {
         grunt.fail.warn('Module operation failed: no content was found to add to the module');
       }
 
+      // JST style templates get attached to the window object, so we put them outside the AMD wrapper
       if (templates && templates.length > 0) {
         for (i=0; i < templates.length; i++) {
           try {
@@ -177,6 +202,7 @@ module.exports = function(grunt) {
       // replace any templating <%= module %>
       contents = grunt.template.process(contents, {data: {module: module}});
       
+      // and finally write out everything
       try {
         grunt.file.write(dest, contents);
       } catch (e) {
